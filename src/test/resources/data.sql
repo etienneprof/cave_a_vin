@@ -4,6 +4,10 @@ DELETE FROM cav_shopping_cart;
 DELETE FROM cav_client;
 DELETE FROM cav_address;
 
+DELETE FROM cav_bottles;
+DELETE FROM cav_colors;
+DELETE FROM cav_regions;
+
 INSERT INTO cav_address
 (street , zip_code  , city) VALUES
     ('123 Trois ptits chats', '12300', 'Catcity'),
@@ -23,3 +27,14 @@ INSERT INTO cav_line
 (quantity, price, shopping_cart_id) VALUES
     (3, 3*11.45, (SELECT cav_shopping_cart.id FROM cav_shopping_cart WHERE order_number = 'C00123'));
 
+
+INSERT INTO cav_regions (name) VALUES ('Pays de la Loire'), ('Grand Est'), ('Nouvelle Aquitaine');
+INSERT INTO cav_colors (name) VALUES ('Rosé'), ('Rouge'), ('Blanc');
+
+INSERT INTO cav_bottles (name, sparkling, vintage, quantity, price, region_id, color_id)
+VALUES
+    ('Blanc du domaine ENI école', 0, '2022', 1298, 23.95, (SELECT id FROM cav_regions WHERE name = 'Pays de la Loire'), (SELECT id FROM cav_colors WHERE name = 'Blanc')),
+    ('Rouge du domaine ENI école', 0, '2018', 987, 11.45, (SELECT id FROM cav_regions WHERE name = 'Pays de la Loire'), (SELECT id FROM cav_colors WHERE name = 'Rouge')),
+    ('Blanc du domaine ENI service', 1, '2022', 111, 34, (SELECT id FROM cav_regions WHERE name = 'Grand Est'), (SELECT id FROM cav_colors WHERE name = 'Blanc')),
+    ('Rouge du domaine ENI service', 0, '2012', 344, 8.15, (SELECT id FROM cav_regions WHERE name = 'Pays de la Loire'), (SELECT id FROM cav_colors WHERE name = 'Rouge')),
+    ('Rosé du domaine ENI', 0, '2022', 1987, 33, (SELECT id FROM cav_regions WHERE name = 'Nouvelle Aquitaine'), (SELECT id FROM cav_colors WHERE name = 'Rosé'));
