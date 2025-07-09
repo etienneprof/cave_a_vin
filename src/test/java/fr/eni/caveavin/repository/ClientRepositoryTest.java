@@ -103,7 +103,7 @@ class ClientRepositoryTest {
         newAdresse.setId(actual.getAdresse().getId());
         assertEquals(newAdresse, actual.getAdresse());
 
-        System.out.println(newClient);
+        System.out.println(actual);
         System.out.println("END TEST SAVE ONE TO ONE\n\n");
     }
 
@@ -137,8 +137,6 @@ class ClientRepositoryTest {
 
     @Test
     public void delete_clientWithoutAdresse_shouldDeleteOrphanAdresse() {
-        // TODO Vérifier que la suppression d'un client, dont l'adresse a été désaffectée, supprime bien l'adresse. (dans un autre test)
-
         System.out.println("\n\nSTART TEST DELETE ORPHAN ONE TO ONE");
         List<Client> clients = clientRepository.findAll();
         System.out.println(clients);
