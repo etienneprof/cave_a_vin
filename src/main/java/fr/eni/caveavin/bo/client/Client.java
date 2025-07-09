@@ -1,9 +1,6 @@
 package fr.eni.caveavin.bo.client;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity @Table(name="cav_client")
@@ -25,4 +22,8 @@ public class Client {
 
     @Column(name = "first_name")
     private String prenom;
+
+    @OneToOne(cascade = CascadeType.ALL,  fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "address_id")
+    private Adresse adresse;
 }
