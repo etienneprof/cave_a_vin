@@ -29,4 +29,8 @@ public class Panier {
     @OneToMany(cascade = CascadeType.ALL,  orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "shopping_cart_id")
     private @Builder.Default List<LignePanier> lignes = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER,  cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "client_id")
+    private Client client;
 }

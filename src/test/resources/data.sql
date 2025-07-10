@@ -41,8 +41,10 @@ INSERT INTO cav_owner
     ('log6',  '85203183000038');
 
 INSERT INTO cav_shopping_cart
-(order_number, total_price, paid) VALUES
-    ('C00123', 3*11.45, 1);
+(order_number, total_price, paid, client_id) VALUES
+    ('C00123', 3*11.45, 1, 'log1'),
+    ('C00170', 3*11.45, 1, 'log1'),
+    (null, 3*11.45, 0, 'log1');
 
 INSERT INTO cav_line
 (quantity, price, shopping_cart_id) VALUES

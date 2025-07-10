@@ -1,5 +1,6 @@
 package fr.eni.caveavin.bo.client;
 
+import fr.eni.caveavin.bo.vin.Bouteille;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,4 +22,8 @@ public class LignePanier {
 
     @Column(name = "price", precision = 2)
     private float prix;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bottle_id")
+    private Bouteille bouteille;
 }

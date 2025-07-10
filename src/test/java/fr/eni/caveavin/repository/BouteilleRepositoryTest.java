@@ -93,4 +93,10 @@ class BouteilleRepositoryTest {
         assertTrue(finalBouteilleSize < initialBouteilleSize);
         assertEquals(0, finalBouteilleSize);
     }
+
+    @Test
+    public void test_select() {
+        System.out.println(bouteilleRepository.findByRegionNom("Pays de la Loire"));
+        System.out.println(bouteilleRepository.findByCouleurNom("Blanc"));
+    }
 }
