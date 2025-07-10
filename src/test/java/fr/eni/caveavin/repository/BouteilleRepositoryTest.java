@@ -31,7 +31,7 @@ class BouteilleRepositoryTest {
                 .orElseThrow();
 
         Region region = regionRepository.findAll().stream()
-                .filter(r -> r.getName().equals("Pays de la Loire"))
+                .filter(r -> r.getNom().equals("Pays de la Loire"))
                 .findFirst()
                 .orElseThrow();
 

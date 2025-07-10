@@ -11,7 +11,7 @@ public class Bouteille {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", length = 250)
+    @Column(name = "name", length = 250, unique = true)
     private String nom;
 
     @Column(name = "sparkling")
