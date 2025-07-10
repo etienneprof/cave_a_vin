@@ -23,7 +23,7 @@ public class LignePanier {
     @Column(name = "price", precision = 2)
     private float prix;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "bottle_id")
     private Bouteille bouteille;
 }

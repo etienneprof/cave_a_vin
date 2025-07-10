@@ -76,7 +76,7 @@ class PanierRepositoryTest {
         assertTrue(shouldExist.isPresent());
     }
 
-
+    @Test
     public void delete_client_keepsPanier() {
         Client client = Client.builder()
                 .pseudo("log10")
