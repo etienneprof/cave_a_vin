@@ -1,8 +1,8 @@
-package fr.eni.cave.bll;
+package fr.eni.caveavin.services;
 
 import java.util.List;
 
-import fr.eni.cave.bo.vin.Bouteille;
+import fr.eni.caveavin.bo.vin.Bouteille;
 
 public interface BouteilleService {
 	List<Bouteille> chargerToutesBouteilles();

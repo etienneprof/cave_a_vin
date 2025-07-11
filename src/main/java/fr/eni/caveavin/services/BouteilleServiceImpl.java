@@ -1,16 +1,16 @@
-package fr.eni.cave.bll;
+package fr.eni.caveavin.services;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import fr.eni.cave.bo.vin.Bouteille;
-import fr.eni.cave.bo.vin.Couleur;
-import fr.eni.cave.bo.vin.Region;
-import fr.eni.cave.dal.BouteilleRepository;
-import fr.eni.cave.dal.CouleurRepository;
-import fr.eni.cave.dal.RegionRepository;
+import fr.eni.caveavin.bo.vin.Bouteille;
+import fr.eni.caveavin.bo.vin.Couleur;
+import fr.eni.caveavin.bo.vin.Region;
+import fr.eni.caveavin.repository.BouteilleRepository;
+import fr.eni.caveavin.repository.CouleurRepository;
+import fr.eni.caveavin.repository.RegionRepository;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -44,7 +44,7 @@ public class BouteilleServiceImpl implements BouteilleService {
 	public List<Bouteille> chargerBouteillesParRegion(int idRegion) {
 		final Region rDB = validerRegion(idRegion);
 
-		final List<Bouteille> listeDB = bRepository.findByRegion(rDB);
+		final List<Bouteille> listeDB = bRepository.findByRegionNom(rDB.getNom());
 		if (listeDB == null || listeDB.isEmpty()) {
 			throw new RuntimeException("Aucune bouteille ne correspond");
 		}
@@ -69,7 +69,7 @@ public class BouteilleServiceImpl implements BouteilleService {
 	public List<Bouteille> chargerBouteillesParCouleur(int idCouleur) {
 		final Couleur cDB = validerCouleur(idCouleur);
 
-		final List<Bouteille> listeDB = bRepository.findByCouleur(cDB);
+		final List<Bouteille> listeDB = bRepository.findByCouleurNom(cDB.getNom());
 		if (listeDB == null || listeDB.isEmpty()) {
 			throw new RuntimeException("Aucune bouteille ne correspond");
 		}
