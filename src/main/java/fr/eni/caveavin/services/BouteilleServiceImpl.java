@@ -21,6 +21,16 @@ public class BouteilleServiceImpl implements BouteilleService {
 	private CouleurRepository cRepository;
 
 	@Override
+	public Bouteille save(Bouteille bouteille) {
+		return bRepository.save(bouteille);
+	}
+
+	@Override
+	public void delete(int id) {
+		bRepository.deleteById(id);
+	}
+
+	@Override
 	public List<Bouteille> chargerToutesBouteilles() {
 		return bRepository.findAll();
 	}

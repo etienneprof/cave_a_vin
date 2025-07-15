@@ -5,6 +5,10 @@ import java.util.List;
 import fr.eni.caveavin.bo.vin.Bouteille;
 
 public interface BouteilleService {
+    Bouteille save(Bouteille bouteille);
+
+	void delete(int id);
+
 	List<Bouteille> chargerToutesBouteilles();
 	
 	Bouteille chargerBouteilleParId(int idBouteille);

@@ -3,11 +3,9 @@ package fr.eni.caveavin.controllers;
 import fr.eni.caveavin.bo.vin.Bouteille;
 import fr.eni.caveavin.services.BouteilleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -62,5 +60,48 @@ public class BouteilleController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(list);
+    }
+
+    @PostMapping
+    public ResponseEntity<Bouteille> saveBouteille(@RequestBody Bouteille bouteille) {
+        if (bouteille.getId() != null && bouteille.getId() >= 0) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        var newBouteille = bouteilleService.save(bouteille);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newBouteille);
+    }
+
+    @PutMapping
+    public ResponseEntity<Bouteille> updateBouteille(
+            @RequestBody Bouteille bouteille
+    ) {
+        if (bouteille.getId() == null || bouteille.getId() <= 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        var newBouteille = bouteilleService.save(bouteille);
+        return ResponseEntity.ok(newBouteille);
+    }
+
+    @PutMapping("/{id:\\d+}")
+    public ResponseEntity<Bouteille> updateBouteilleWithId(
+            @PathVariable int id,
+            @RequestBody Bouteille bouteille
+    ) {
+        if (bouteille.getId() == null || bouteille.getId() <= 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        if (bouteille.getId() != id)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        var newBouteille = bouteilleService.save(bouteille);
+        return ResponseEntity.ok(newBouteille);
+    }
+
+    @DeleteMapping("/{id:\\d+}")
+    public ResponseEntity<String> deleteBouteilleById(@PathVariable int id) {
+        bouteilleService.delete(id);
+        return ResponseEntity.ok("Safely deleted bottle " + id);
+        // return ResponseEntity.noContent().build();
     }
 }
