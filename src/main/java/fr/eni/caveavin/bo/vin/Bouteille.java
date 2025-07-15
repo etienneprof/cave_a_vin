@@ -1,6 +1,10 @@
 package fr.eni.caveavin.bo.vin;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Data
@@ -12,27 +16,33 @@ public class Bouteille {
     private Integer id;
 
     @Column(name = "name", length = 250, unique = true)
+    @NotBlank @Size(min = 1, max = 250)
     private String nom;
 
     @Column(name = "sparkling")
     private boolean petillant;
 
     @Column(name = "vintage", length = 100)
+    @Size(min = 1, max = 100)
     private String millesime;
 
     @Column(name = "quantity")
+    @Min(1)
     private int quantite;
 
     @Column(name = "price", precision = 2)
+    @Min(1)
     private float prix;
 
     @ManyToOne
     @JoinColumn(name = "color_id")
     @EqualsAndHashCode.Exclude
+    @NotNull
     private Couleur couleur;
 
     @ManyToOne
     @JoinColumn(name = "region_id")
     @EqualsAndHashCode.Exclude
+    @NotNull
     private Region region;
 }

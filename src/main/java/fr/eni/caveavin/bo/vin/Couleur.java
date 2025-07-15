@@ -20,6 +20,4 @@ public class Couleur {
 
     @Column(name = "name", length = 250,  unique = true)
     private String nom;
-
-    private List<Bouteille> bouteilles;
 }

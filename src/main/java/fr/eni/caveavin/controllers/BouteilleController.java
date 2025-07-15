@@ -2,6 +2,7 @@ package fr.eni.caveavin.controllers;
 
 import fr.eni.caveavin.bo.vin.Bouteille;
 import fr.eni.caveavin.services.BouteilleService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +64,7 @@ public class BouteilleController {
     }
 
     @PostMapping
-    public ResponseEntity<Bouteille> saveBouteille(@RequestBody Bouteille bouteille) {
+    public ResponseEntity<Bouteille> saveBouteille(@Valid @RequestBody Bouteille bouteille) {
         if (bouteille.getId() != null && bouteille.getId() >= 0) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -74,7 +75,7 @@ public class BouteilleController {
 
     @PutMapping
     public ResponseEntity<Bouteille> updateBouteille(
-            @RequestBody Bouteille bouteille
+            @Valid @RequestBody Bouteille bouteille
     ) {
         if (bouteille.getId() == null || bouteille.getId() <= 0)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -86,7 +87,7 @@ public class BouteilleController {
     @PutMapping("/{id:\\d+}")
     public ResponseEntity<Bouteille> updateBouteilleWithId(
             @PathVariable int id,
-            @RequestBody Bouteille bouteille
+            @Valid @RequestBody Bouteille bouteille
     ) {
         if (bouteille.getId() == null || bouteille.getId() <= 0)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
