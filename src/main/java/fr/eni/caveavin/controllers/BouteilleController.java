@@ -3,9 +3,9 @@ package fr.eni.caveavin.controllers;
 import fr.eni.caveavin.bo.vin.Bouteille;
 import fr.eni.caveavin.services.BouteilleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +27,39 @@ public class BouteilleController {
         var list = bouteilleService.chargerToutesBouteilles();
         if (list.isEmpty()) {
             return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/{id:\\d+}")
+    public ResponseEntity<Bouteille> getBouteilleById(@PathVariable int id) {
+        Bouteille bouteille;
+        try {
+            bouteille = bouteilleService.chargerBouteilleParId(id);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(bouteille);
+    }
+
+    @GetMapping("/couleur/{id:\\d+}")
+    public ResponseEntity<List<Bouteille>> getBouteillesByCouleurId(@PathVariable int id) {
+        List<Bouteille> list;
+        try {
+            list = bouteilleService.chargerBouteillesParCouleur(id);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/region/{id:\\d+}")
+    public ResponseEntity<List<Bouteille>> getBouteillesByRegionId(@PathVariable int id) {
+        List<Bouteille> list;
+        try {
+            list = bouteilleService.chargerBouteillesParRegion(id);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(list);
     }
