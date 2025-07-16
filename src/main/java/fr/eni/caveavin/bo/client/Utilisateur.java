@@ -29,4 +29,7 @@ public class Utilisateur {
 
     @Column(name = "first_name")
     private String prenom;
+
+    @Column(length = 15)
+    private String authority;
 }
