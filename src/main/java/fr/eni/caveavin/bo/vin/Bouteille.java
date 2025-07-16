@@ -16,7 +16,7 @@ public class Bouteille {
     private Integer id;
 
     @Column(name = "name", length = 250, unique = true)
-    @NotBlank @Size(min = 1, max = 250, message = "{exception.bouteille.nom}")
+    @NotBlank(message = "{exception.bouteille.notblank}") @Size(min = 1, max = 250, message = "{exception.bouteille.nom}")
     private String nom;
 
     @Column(name = "sparkling")
