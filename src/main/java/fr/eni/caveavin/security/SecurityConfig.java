@@ -3,32 +3,35 @@ package fr.eni.caveavin.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private AuthenticationProvider authenticationProvider;
 
-    @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource) {
-        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUsersByUsernameQuery("select login, password, 1 from cav_user where login = ?");
-        userDetailsManager.setAuthoritiesByUsernameQuery("select login, authority from cav_user where login = ?");
-        return userDetailsManager;
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authenticationProvider) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.authenticationProvider = authenticationProvider;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth ->
             auth
+                .requestMatchers("/auth").permitAll()
                 // Autorisations des clients et administrateurs
 
                 .requestMatchers( HttpMethod.GET,"/caveavin/paniers/**").hasAnyRole("CLIENT", "OWNER")
@@ -48,7 +51,11 @@ public class SecurityConfig {
                 .anyRequest().denyAll()
         );
 
-        http.httpBasic(Customizer.withDefaults());
+        http.authenticationProvider(authenticationProvider);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         http.csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
