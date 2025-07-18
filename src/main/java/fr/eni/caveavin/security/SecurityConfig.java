@@ -1,5 +1,6 @@
 package fr.eni.caveavin.security;
 
+import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,6 +33,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth ->
             auth
                 .requestMatchers("/auth").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/v3/**").permitAll()
+                .requestMatchers("/v3/api-docs/**").permitAll()
+                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                 // Autorisations des clients et administrateurs
 
                 .requestMatchers( HttpMethod.GET,"/caveavin/paniers/**").hasAnyRole("CLIENT", "OWNER")
@@ -50,7 +55,6 @@ public class SecurityConfig {
                 .requestMatchers( HttpMethod.GET,"/caveavin/bouteilles").permitAll()
                 .anyRequest().denyAll()
         );
-
         http.authenticationProvider(authenticationProvider);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement(session ->

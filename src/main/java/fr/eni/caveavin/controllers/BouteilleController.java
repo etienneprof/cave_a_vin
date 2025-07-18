@@ -2,6 +2,9 @@ package fr.eni.caveavin.controllers;
 
 import fr.eni.caveavin.bo.vin.Bouteille;
 import fr.eni.caveavin.services.BouteilleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,10 @@ public class BouteilleController {
     }
 
     @GetMapping
+    @Operation(summary = "Permet de récupérer toutes les bouteilles de l'application", description = "Retourne une liste de bouteilles.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",  description = "Tout s'est bien passé !")
+    })
     public ResponseEntity<List<Bouteille>> getAllBouteilles() {
         var list = bouteilleService.chargerToutesBouteilles();
         if (list.isEmpty()) {
